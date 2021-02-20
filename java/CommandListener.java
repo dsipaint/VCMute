@@ -3,7 +3,6 @@ import java.util.concurrent.TimeUnit;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
-import net.dv8tion.jda.api.events.guild.voice.GuildVoiceGuildMuteEvent;
 import net.dv8tion.jda.api.events.message.guild.GuildMessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
@@ -70,6 +69,11 @@ public class CommandListener extends ListenerAdapter
 						+ mutedperson.getUser().getAsTag() + " (" + mutedperson.getId() + ") vc muted by " + e.getAuthor().getAsTag() //who muted who
 						+ (reason.isEmpty() ? "" : " for reason: " + reason)).queue(); //reason if provided
 				
+				mutedperson.getUser().openPrivateChannel().complete().sendMessage("You have been vc-muted in the Wilbur Soot Discord server"
+						+ (reason.isEmpty() ? "" : " for reason: " + reason)
+						+ ". If you would like to appeal this punishment, DM the Modmail bot and a member of staff will be in touch.")
+				.queue();
+				
 				return;
 			}
 			
@@ -133,6 +137,12 @@ public class CommandListener extends ListenerAdapter
 						+ " for " + args[2] //length of time
 						+ (reason.isEmpty() ? "" : " for reason: " + reason)).queue(); //reason if provided
 				
+				mutedperson.getUser().openPrivateChannel().complete().sendMessage("You have been vc-muted in the Wilbur Soot Discord server"
+						+ (reason.isEmpty() ? "" : " for reason: " + reason)
+						+ ", for " + args[2]
+						+ ". If you would like to appeal this punishment, DM the Modmail bot and a member of staff will be in touch.")
+				.queue();
+				
 				return;
 			}
 			
@@ -188,20 +198,6 @@ public class CommandListener extends ListenerAdapter
 				e.getJDA().shutdown();
 				System.exit(0);
 			}
-		}
-	}
-	
-	public void onGuildVoiceGuildMute(GuildVoiceGuildMuteEvent e)
-	{
-		if(e.isGuildMuted())
-		{
-			e.getGuild().getTextChannelById(Main.LOG_CHANNEL).sendMessage(":mute: " 
-					+ e.getMember().getUser().getAsTag() + " (" + e.getMember().getId() + ") was manually vc muted").queue();
-		}
-		else
-		{
-			e.getGuild().getTextChannelById(Main.LOG_CHANNEL).sendMessage(":loud_sound: " 
-					+ e.getMember().getUser().getAsTag() + " (" + e.getMember().getId() + ") was manually vc unmuted").queue();
 		}
 	}
 	
