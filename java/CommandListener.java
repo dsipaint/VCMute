@@ -221,7 +221,7 @@ public class CommandListener extends ListenerAdapter
 				
 				for(Role r : m.getRoles())
 				{
-					if(r.getId().equals("565626094917648386")) //wilbur discord mod
+					if(r.getId().equals("565626094917648386") || r.getId().equals("751506678683533333")) //wilbur discord mod
 						return true;
 				}
 				
